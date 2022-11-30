@@ -3,7 +3,7 @@ numpy
 datetime
 yfinance
 requests
-re
+regex
 json
 plotly.graph_objects
 plotly.subplots
