@@ -1,5 +1,3 @@
-# Why do I have to click update twice?
-
 # Initializing
 import pandas as pd
 import numpy as np
@@ -386,7 +384,7 @@ class DashboardObject:
         dtick=1, 
         range=[-20,20])
       fig.update_xaxes(visible=False)
-      print(score)
+
       fig.add_annotation( # Ref: https://plotly.com/python/text-and-annotations/#text-annotations
         x=score, 
         y=5,
@@ -643,7 +641,7 @@ def showThirdTab():
   states = ["financials", "balance-sheet", "cash-flow", "annual", "quarterly"]
   buttons = {}
 
-  cols = st.columns([2]*6 + [1]*2)
+  cols = st.columns([2]*5 + [2]*2)
   for col, report, state in zip(cols[0:3], report_types, states[0:3]):
     buttons[state] = col.button(label=report)
   buttons[states[-1]] = cols[-1].button(label="Quarterly")
