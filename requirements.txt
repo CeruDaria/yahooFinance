@@ -1,0 +1,9 @@
+pandas
+numpy
+datetime
+yfinance
+requests
+re
+json
+plotly.graph_objects
+plotly.subplots
