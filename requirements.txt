@@ -4,6 +4,5 @@ datetime
 yfinance
 requests
 regex
-json
 plotly.graph_objects
 plotly.subplots
