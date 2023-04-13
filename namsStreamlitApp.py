@@ -13,7 +13,6 @@ from plotly.subplots import make_subplots
 st.set_page_config(page_icon="🍞", layout="wide")
 
 # Initializing Session State
-# Ref: https://docs.streamlit.io/library/api-reference/session-state
 if "tickerList" not in st.session_state:
   tickerList = pd.read_html("https://en.wikipedia.org/wiki/List_of_S%26P_500_companies")[0][["Symbol","Security"]]
   # There is a small inconsistency in the Wikipedia table where certain tickers are registered differently from how they
@@ -179,7 +178,7 @@ class DashboardObject:
         xmaxrange = list(df.index).index(xmaxrange)
       except:
         xmaxrange = list(df.index).index(df.index[df.index < xmaxrange][-1])
-      # Categorical range. Ref: https://plotly.com/python/reference/#layout-xaxis-range
+      # Categorical range.
       df.reset_index(inplace=True)
       df["pct_change"] = df["Close"].pct_change() 
       df[df.columns[0]] = df[df.columns[0]].dt.strftime("%d/%m/%Y")
@@ -195,7 +194,7 @@ class DashboardObject:
           mode='lines',
           line=dict(width=0, color=color),
           name="Close Price"
-          ) # Ref: https://plotly.com/python/filled-area-plots/#basic-overlaid-area-chart
+          ) 
     elif type == "Line":
       fig_obj = go.Scatter(
           x=df[df.columns[0]], 
@@ -213,9 +212,6 @@ class DashboardObject:
       return
 
     # Creating overlaying plots 
-    # https://plotly.com/python/subplots/
-    # https://plotly.com/python-api-reference/generated/plotly.subplots.make_subplots.html
-    # https://plotly.com/python/multiple-axes/
     fig = make_subplots(specs=[[{"secondary_y": True}]])
 
     if type == "Area":
@@ -224,7 +220,7 @@ class DashboardObject:
           x=df[df.columns[0]], 
           y=df["Volume"], 
           name="Volume"
-          ) # Ref: https://plotly.com/python/bar-charts/
+          ) 
         )
     else:
       # This is done to plot alternating red-green bars as seen on Yahoo Finance
@@ -288,7 +284,7 @@ class DashboardObject:
         "text": f"Currently selected period: {period.upper()}",
         "x": 0.5,
         "xanchor": "center"
-        }, # Ref: https://plotly.com/python/reference/layout/#layout-title-xanchor
+        }, 
       xaxis_rangeslider_visible=False,
       barmode="overlay"
       )
@@ -309,7 +305,6 @@ class DashboardObject:
     st.plotly_chart(fig, use_container_width=True)
   
   def showRec(self, type):
-    # Inspired by https://stockanalysis.com/stocks/abt/forecast/ and Yahoo Finance
     mapping = {
       "Outperform": "Buy",
       "Overweight": "Buy",
@@ -385,7 +380,7 @@ class DashboardObject:
         range=[-20,20])
       fig.update_xaxes(visible=False)
 
-      fig.add_annotation( # Ref: https://plotly.com/python/text-and-annotations/#text-annotations
+      fig.add_annotation( 
         x=score, 
         y=5,
         text=f"On average, over the last year, <br> experts have been rating the stock as <br> <b>{ratings[int(score)]}</b> <br> with a score of <br> <b>{(score + 1):.2f}</b>",
@@ -434,10 +429,6 @@ def updateLoadedTicker():
     st.write("Please select a ticker")
 
 def get_annuals(ticker, type="financials", headers = {"User-agent": "Mozilla/5.0"}):
-  # Adapted from yahoo_fin library get_json function https://github.com/atreadw1492/yahoo_fin
-  # The data provided by both yfinance and yahoo_fin is not sufficient/inconsistent with what Yahoo Finance displayed.
-  # So I opted for getting the json file from Yahoo Finance to get the full data
-  # I understand this is completely unnecessary but I wanted to learn anyway
   url = f"https://finance.yahoo.com/quote/{ticker}/{type}?p={ticker}"
   html = requests.get(url=url, headers = headers).text
 
@@ -544,7 +535,6 @@ def runMCS(n=200, days=30):
   st.markdown(f'Value at risk at 95% confidence interval is: {str(np.round(VaR, 2))} USD')
 
 def updateDatebool():
-  # Ref: https://docs.streamlit.io/library/api-reference/session-state
   st.session_state["currentBigChartDateBool"] = True
   print("Updating")
 
