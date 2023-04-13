@@ -39,7 +39,7 @@ if "reportPeriod" not in st.session_state:
 class DashboardObject:
   def __init__(self, ticker_str):
     self.ticker                 = yf.Ticker(ticker_str)
-    self.tickerinfo             = self.ticker.info
+    self.tickerinfo             = dict(self.ticker.info)
     self.tickercal              = self.ticker.calendar
     self.major_holders          = self.ticker.major_holders
     self.major_holders          = self.major_holders.rename(columns={0: "Statistics", 1: "Description"})
